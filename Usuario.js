@@ -29,8 +29,8 @@ class Usuario {
 }
 
 const usuario1 = new Usuario(
-    'Elon', 
-    'Musk', 
+    'Sebastian', 
+    'Maidana', 
     [
         {
             nombre: "El señor de las moscas", 
@@ -48,8 +48,8 @@ const usuario1 = new Usuario(
 );
 usuario1.addMascota('perro'); 
 usuario1.addMascota('gato'); 
-usuario1.addBook('El señor de las moscas', 'William Golding' );
-usuario1.addBook('Fundacion', 'Isaac Asimov' );
+usuario1.addBook('El señor de los anillos', 'William Golding' );
+usuario1.addBook('Fundacion 2', 'Isaac Asimov' );
 console.log(usuario1.countMascotas())
 console.log(usuario1.getBookNames());
 console.log(usuario1.getFullName());
