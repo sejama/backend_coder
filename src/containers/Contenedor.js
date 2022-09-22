@@ -109,52 +109,144 @@ console.log("Mostramos Todos: ",archivo.getAll());
 
 
 /*
->> Consigna:Implementar programa que contenga una clase llamada Contenedor que reciba el 
-nombre del archivo con el que va a trabajar e implemente los siguientes métodos:
-● save(Object): Number- Recibe un objeto, lo guarda en el archivo, devuelve el id asignado.
-● getById(Number): Object- Recibe un id y devuelve el objeto con ese id, o null si no está.
-● getAll(): Object[]- Devuelve un array con los objetos presentes en el archivo.
-● deleteById(Number): void- Elimina del archivo el objeto con el id buscado.
-● deleteAll(): void- Elimina todos los objetos presentes en el archivo.
+import fs from "fs";
 
-Sugerencia: usar un archivo para la clase y otro de test, que la importe
->> Aspectos a incluir en el entregable:
-- El método saveincorporará al producto un id numérico, que deberá ser siempre uno más que el id 
-del último objeto agregado (o id 1 si es el primer objeto que se agrega) y no puede estar repetido.
-- Tomar en consideración el contenido previo del archivo, en caso de utilizar uno existente.
-- Implementar el manejo de archivos con el módulo fs de node.js, utilizando promesas con 
-async/await y manejo de errores.
-- Probar el módulo creando un contenedor de productos, que se guarde en el archivo: 
-“productos.txt”
-- Incluir un llamado de prueba a cada método, y mostrando por pantalla según corresponda para 
-verificar el correcto funcionamiento del módulo construído. 
-- El formato de cada producto será : 
-{
-title: (nombre del producto),
-price: (precio),
-thumbnail: (url de la foto del producto)
+// sin usar el type module en el package json usamos lo siguiente:
+// const fs = require("fs");
+
+class Container {
+  constructor(fileName) {
+    this.filePath = `./src/db/${fileName}.json`;
+  }
+
+  async getAll() {
+    try {
+      const file = await fs.promises.readFile(this.filePath, "utf8");
+      const elements = JSON.parse(file);
+
+      return elements;
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        await fs.promises.writeFile(this.filePath, JSON.stringify([], null, 3));
+        return [];
+      }
+      console.log(error);
+    }
+  }
+
+  async save(element) {
+    try {
+      const elements = await this.getAll();
+
+      const id =
+        elements.length === 0 ? 1 : elements[elements.length - 1].id + 1;
+
+      // let id;
+      // if(elements.length === 0){
+      //     id = 1
+      // } else {
+      //     id = elements[elements.length - 1].id + 1;
+      // }
+
+      element.id = id;
+
+      elements.push(element);
+
+      await fs.promises.writeFile(
+        this.filePath,
+        JSON.stringify(elements, null, 3)
+      );
+
+      return element.id;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getById(id) {
+    try {
+      const elements = await this.getAll();
+
+      const foundElement = elements.find((element) => element.id == id);
+
+      if (!foundElement) return null;
+
+      return foundElement;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async deleteById(id) {
+    try {
+      const elements = await this.getAll();
+
+      const foundElement = elements.find((element) => element.id == id);
+      //   const foundElementIndex = elements.findIndex(
+      //     (element) => element.id == id
+      //   );
+
+      if (!foundElement) return "Element not found";
+      //if (foundElementIndex === -1) return "Element not found";
+
+      const filterElements = elements.filter((element) => element.id != id);
+
+      //   elements.splice(foundElementIndex, 1);
+
+      await fs.promises.writeFile(
+        this.filePath,
+        JSON.stringify(filterElements, null, 3)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async deleteAll() {
+    try {
+      await fs.promises.writeFile(this.filePath, JSON.stringify([], null, 3));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async update({ id, newData }) {
+    try {
+      const elements = await this.getAll();
+
+      const foundElementIndex = elements.findIndex(
+        (element) => element.id == id
+      );
+
+      if (foundElementIndex === -1) return "Element not found";
+      const foundElement = elements[foundElementIndex];
+
+      // elements[foundElementIndex] = {
+      //   ...foundElement,
+      //   ...newData,
+      // };
+
+      // otra forma para actualizar dinamicamnete un objeto, recorremos todas las propiedades que llegan en newData usando un for in, y por cada key de newData, con el metodo hasOwnProperty de object, analizamos si foundElement tiene esa key que viene de newData, si la tiene, le asignamos el valor de newData
+      // Ejemplo, si foundElement es un objeto { title: "producto", price: 1000 } y new data {title: "Producto Modificado", pepe: "no deberia guardar"},
+      // recorremos newData, y si title existe en el foundelement, reemplazamos su valor, pero pepe no va a existir, por lo tanto pasa de largo el if.
+      for (const key in newData) {
+        if (foundElement.hasOwnProperty(key)) {
+          foundElement[key] = newData[key];
+        }
+      }
+
+      await fs.promises.writeFile(
+        this.filePath,
+        JSON.stringify(elements, null, 3)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
->> Ejemplo:
-Contenido de "productos.txt" con 3 productos almacenados 
- [
-{
-title: 'Escuadra',
-price: 123.45,
-thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png',
-id: 1
-},
-{
-title: 'Calculadora',
-price: 234.56,
-thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png',
-id: 2
-},
-{
-title: 'Globo Terráqueo',
-price: 345.67,
-thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',
-id: 3
-}
-] 
+export { Container };
+
+// sin usar el type module en el package json usamos lo siguiente:
+// module.exports = Container;
 */
