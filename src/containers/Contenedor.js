@@ -58,12 +58,20 @@ class Contenedor{
     deleteById(id) {
         let resultado
         if (this.contenido !== []) {
-            let newContentenido = this.contenido.filter(x => x.id !== id)
-            this.contenido = newContentenido
-            this.escribir()
-            resultado = `El producto fue eliminado`
+            //let newContentenido = this.contenido.filter(x => x.id !== id)
+            //this.contenido = newContentenido
+            //this.escribir()
+            const foundElementIndex = this.contenido.findIndex((elemento) => elemento.id === id)
+            
+            if (foundElementIndex === -1){
+                resultado = `El producto no se encontro!`
+            }else{
+                this.contenido = foundElement.splice(foundElementIndex,1)
+                this.escribir()
+            }
+            resultado = `El producto fue eliminado!`
         } else {
-            resultado = `El archivo está vacío`
+            resultado = `El archivo está vacío!`
         }
         return resultado
     }
@@ -91,10 +99,10 @@ console.log(archivo.save({
         'price': 345.67,
         'thumbnail': 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png'
         }));
-//console.log("Mostramos Todos: ",archivo.getAll());
-//console.log("Mostramois el productro id = 2 ", archivo.getById(2));
-//console.log("Eliminamos el productro id = 2 ", archivo.deleteById(2));
-//console.log("Mostramos Todos: ",archivo.getAll());
+console.log("Mostramos Todos: ",archivo.getAll());
+console.log("Mostramois el productro id = 2 ", archivo.getById(2));
+console.log("Eliminamos el productro id = 2 ", archivo.deleteById(2));
+console.log("Mostramos Todos: ",archivo.getAll());
 console.log("Eliminamos todos los productros", archivo.deleteAll());
 console.log("Mostramos Todos: ",archivo.getAll());
 
