@@ -66,7 +66,7 @@ class Contenedor{
             if (foundElementIndex === -1){
                 resultado = `El producto no se encontro!`
             }else{
-                this.contenido = foundElement.splice(foundElementIndex,1)
+                this.contenido.splice(foundElementIndex,1)
                 this.escribir()
             }
             resultado = `El producto fue eliminado!`
@@ -102,9 +102,9 @@ console.log(archivo.save({
 console.log("Mostramos Todos: ",archivo.getAll());
 console.log("Mostramois el productro id = 2 ", archivo.getById(2));
 console.log("Eliminamos el productro id = 2 ", archivo.deleteById(2));
-console.log("Mostramos Todos: ",archivo.getAll());
-console.log("Eliminamos todos los productros", archivo.deleteAll());
-console.log("Mostramos Todos: ",archivo.getAll());
+//console.log("Mostramos Todos: ",archivo.getAll());
+//console.log("Eliminamos todos los productros", archivo.deleteAll());
+//console.log("Mostramos Todos: ",archivo.getAll());
 
 
 
