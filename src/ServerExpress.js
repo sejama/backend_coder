@@ -2,7 +2,7 @@ const express = require('express')
 const Contenedor = require('./Contenedor')
 const app = express()
 const port = 8080
-//https://programmerclick.com/article/56161825057/
+
 const archivo = new Contenedor("productos")
 
 
