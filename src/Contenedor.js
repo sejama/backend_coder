@@ -80,6 +80,13 @@ class Contenedor{
         this.contenido = []
         this.escribir()
     }
+
+    async update(id, obj) {
+        const index = this.contenido.findIndex(objT => objT.id == id)
+        obj.id = id
+        this.contenido[index] = obj
+        return obj
+      }
 }
 
 /*const archivo = new Contenedor('productos.txt');
