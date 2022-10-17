@@ -31,7 +31,7 @@ const routerProductos = require('./routes/routerProductos.js')
 const viewsRouter = require('./routes/ViewsRouter.js')
 //Asignamos las func a /productos
 app.use('/api/productos/', routerProductos)
-app.use('/views', viewsRouter)
+app.use('/views/', viewsRouter)
 
 app.all('*', (req, res) => res.send({mensaje: "Ruta no valida"}))
 
