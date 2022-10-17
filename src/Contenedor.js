@@ -1,5 +1,5 @@
+//import { fs } from 'fs'
 const fs = require('fs')
-
 class Contenedor{
     constructor(nombreArchivo){
         this.nombreArchivo = `./src/archivos/${nombreArchivo}.txt`;
@@ -64,16 +64,15 @@ class Contenedor{
             const foundElementIndex = this.contenido.findIndex((elemento) => elemento.id === id)
             
             if (foundElementIndex === -1){
-                resultado = `El producto no se encontro!`
+                return resultado = -1
             }else{
                 this.contenido.splice(foundElementIndex,1)
                 this.escribir()
+                return resultado = `El producto fue eliminado!`
             }
-            resultado = `El producto fue eliminado!`
         } else {
-            resultado = `El archivo está vacío!`
+            return resultado = -1
         }
-        return resultado
     }
     
     async deleteAll() {
@@ -83,10 +82,15 @@ class Contenedor{
 
     async update(id, obj) {
         const index = this.contenido.findIndex(objT => objT.id == id)
-        obj.id = id
-        this.contenido[index] = obj
-        return obj
-      }
+        if(index === -1) {
+            return {error: 'Producto no encontrado'}
+        }else{
+            //this.contenido[index] = {...this.contenido[index],...obj}
+            obj.id = id
+            this.contenido[index] = obj
+            return this.contenido[index]
+        }
+    }
 }
 
 /*const archivo = new Contenedor('productos.txt');
@@ -113,4 +117,5 @@ console.log("Eliminamos el productro id = 2 ", archivo.deleteById(2));
 //console.log("Eliminamos todos los productros", archivo.deleteAll());
 //console.log("Mostramos Todos: ",archivo.getAll());
 */
-module.exports = Contenedor
+//export { Contenedor }
+module.exports = Contenedor;
