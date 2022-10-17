@@ -4,10 +4,9 @@ const handlebars = require('express-handlebars')
 const port = 8080
 const app = express()
 
-const server = app.listen(port, () => {
-  console.log(`Server escuchando en el puerto ${server.address().port}`)
-})
-server.on("error", error => console.log(`Error en el server: ${error}`))
+//esto sirve para leer los body en json
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.engine(
   "hbs",
@@ -18,21 +17,21 @@ app.engine(
 )
 
 app.set('view engine', "hbs")
-app.set('views', '../views')
-
-//esto sirve para leer los body en json
-app.use(express.json())
+app.set('views', './views')
 
 const parhAbsoluto = __dirname
 app.use('/publico', express.static(parhAbsoluto+'../public/index.html'))
 
 //Devuelve la funcionalidad de productos
 const routerProductos = require('./routes/routerProductos.js')
-const viewsRouter = require('./routes/ViewsRouter.js')
+const routerViews = require('./routes/routerViews.js')
 //Asignamos las func a /productos
 app.use('/api/productos/', routerProductos)
-app.use('/views/', viewsRouter)
+app.use('/', routerViews)
 
 app.all('*', (req, res) => res.send({mensaje: "Ruta no valida"}))
 
-
+const server = app.listen(port, () => {
+  console.log(`Server escuchando en el puerto ${server.address().port}`)
+})
+server.on("error", error => console.log(`Error en el server: ${error}`))

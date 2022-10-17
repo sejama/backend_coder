@@ -1,11 +1,11 @@
 //import { Router } from 'express';
-const express = require('express');
+const express = require('express')
 const { Router } = express;
 const routerProductos = Router()
 //const router = express.Router()
 
 //import Contenedor from '../Contenedor.js'
-const Contenedor = require('../contenedor');
+const Contenedor = require('../contenedor')
 const productos = new Contenedor("productos")
 
 routerProductos.get('/', async (req, resp)=> {
