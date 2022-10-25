@@ -2,7 +2,7 @@
 const fs = require('fs')
 class Contenedor{
     constructor(nombreArchivo){
-        this.nombreArchivo = `./src/archivos/${nombreArchivo}.txt`;
+        this.nombreArchivo = `./data/${nombreArchivo}.txt`;
         this.contadorId = 0;
         this.contenido = [];
         this.leer();

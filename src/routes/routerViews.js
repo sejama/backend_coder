@@ -5,7 +5,7 @@ const routerViews = Router()
 //const router = express.Router()
 
 //import Contenedor from '../Contenedor.js'
-const Contenedor = require('../contenedor')
+const Contenedor = require('../../models/Contenedor')
 const contenido = new Contenedor("productos")
 
 routerViews.get("/", (req, res) => {
