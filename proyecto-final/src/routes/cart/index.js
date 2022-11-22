@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { DATE_UTILS } from "../../../utils/index.js";
+import { DATE_UTILS } from "../../utils/index.js";
 import { CartDao, ProductDao } from "../../dao/index.js";
 
 const router = Router();

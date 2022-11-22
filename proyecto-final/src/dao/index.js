@@ -1,10 +1,32 @@
-import { ContainerFilesystem } from "../containers/index.js";
-//import { config } from "../config/index.js";
+import { config } from "../config/index.js";
+import { MongoDBService } from "../services/index.js";
+import { CartsMongo, CartsFilesystem, CartsMemory } from "./cart/index.js";
+import { ProductsMongo, ProductsFilesystem, ProductsMemory, } from "./product/index.js";
 
-const PRODUCTS_FILENAME = "products"
-const CARTS_FILENAME = "carts" //config.DATABASES.filesystem.CARTS_FILENAME
+const getSelectedDaos = () => {
+  switch (config.SERVER.SELECTED_DATABASE) {
+    case "mongo": {
+      MongoDBService.init();
+      return {
+        ProductDao: new ProductsMongo(),
+        CartDao: new CartsMongo(),
+      };
+    }
+    case "filesystem": {
+      return {
+        ProductDao: new ProductsFilesystem(),
+        CartDao: new CartsFilesystem(),
+      };
+    }
+    case "memory": {
+      return {
+        ProductDao: new ProductsMemory(),
+        CartDao: new CartsMemory(),
+      };
+    }
+  }
+};
 
-const ProductDao = new ContainerFilesystem(PRODUCTS_FILENAME);
-const CartDao = new ContainerFilesystem(CARTS_FILENAME);
+const { ProductDao, CartDao } = getSelectedDaos();
 
 export { ProductDao, CartDao };

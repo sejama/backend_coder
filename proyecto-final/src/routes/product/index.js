@@ -1,7 +1,7 @@
 import { request, Router } from 'express'
 import { ProductDao } from '../../dao/index.js'
 import { verifyRole } from "../../middlewares/verifyRole.js";
-import { DATE_UTILS, JOI_VALIDATOR } from '../../../utils/index.js'
+import { DATE_UTILS, JOI_VALIDATOR } from '../../utils/index.js'
 
 const router = Router()
 
