@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <title>Productos y Chat</title>
+</head>
+<body>
+  <form id="product-form" class="product-form">
+    <input type="text" name="title" placeholder="Título" required>
+    <input type="number" name="price" placeholder="0.00" required>
+    <input type="url" name="thumbnail" placeholder="Imagen URL" required>
+    <button type="submit">Enviar</button>
+  </form>
+  <div id="products"></div>
+  <br>
+  <form id="chat">
+    <input type="email" name="correo" placeholder="correo@correo.com" required>
+    <input type="textarea" name="mensaje" placeholder="Mensaje" required>
+    <button type="submit">Enviar</button>
+  </form>
+  <div id="chatContainer"></div>
+  <script src="/assets/js/cliente.js"></script>
+</body>
+</html>

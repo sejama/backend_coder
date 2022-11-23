@@ -1,0 +1,22 @@
+.chat-message{
+  padding: .5rem 0;
+  background-color: teal;
+  border-radius: 0.5rem;
+  margin: 0.7rem 0;
+}
+
+.chat-message-text{
+  color: aliceblue;
+}
+
+table,
+    th,
+    td {
+        border: 1px solid;
+    }
+    .title {
+        text-align: center;
+    }
+    .product-list {
+        width: 100%;
+    }

@@ -1,15 +1,8 @@
 import { Router } from "express";
-import { DATE_UTILS } from "../../utils/index.js";
+import { DATE_UTILS } from "../../../utils/index.js";
 import { CartDao, ProductDao } from "../../dao/index.js";
 
 const router = Router();
-
-router.get('/:id', async (req, res) => {
-    const { id } = req.params
-    const cart = await CartDao.getById(id)
-
-    res.send({cart: cart})
-})
 
 router.post("/", async (req, res) => {
   const baseCart = { timestamp: DATE_UTILS.getTimestamp(), products: [] };
@@ -24,14 +17,12 @@ router.post("/:cartId/products", async (req, res) => {
   const productId = id
   const { cartId } = req.params;
 
-  //const cart = await CartDao.getById(Number(cartId));
-  const cart = await CartDao.getById((cartId));
+  const cart = await CartDao.getById(Number(cartId));
 
   if (!cart)
     return res.send({ error: "Carrito no encontrado" });
 
-  //const product = await ProductDao.getById(Number(productId));
-  const product = await ProductDao.getById((productId));
+  const product = await ProductDao.getById(Number(productId));
 
   if (!product)
     return res.send({ error: "Producto no encontrado" });
@@ -39,8 +30,7 @@ router.post("/:cartId/products", async (req, res) => {
   // TODO
   cart.products.push(product)
 
-  //const updatedCart = await CartDao.updateById(Number(cartId), cart);
-  const updatedCart = await CartDao.updateById((cartId), cart);
+  const updatedCart = await CartDao.updateById(Number(cartId), cart);
 
   res.send({ success: true, cart: updatedCart });
 });
@@ -48,8 +38,7 @@ router.post("/:cartId/products", async (req, res) => {
 router.delete("/:cartId", async (req, res) => {
     try{
         const {cartId} = req.params
-        //const cart = await CartDao.deleteById(Number(cartId));
-        const cart = await CartDao.deleteById((cartId));
+        const cart = await CartDao.deleteById(Number(cartId));
         res.send({ success: true })
     }catch(error){
         console.log(error)
@@ -60,8 +49,7 @@ router.delete("/:cartId", async (req, res) => {
 router.get('/:cartId/products', async (req, res) => {
     try{
         const {cartId} = req.params
-        //const { products } = await CartDao.getById(Number(cartId))        
-        const { products } = await CartDao.getById((cartId))
+        const { products } = await CartDao.getById(Number(cartId))        
         if(products === undefined) return res.send({ Error: "Carrito no encontrado" })
         res.send({ products: products  })
     }catch(error){
@@ -73,21 +61,16 @@ router.get('/:cartId/products', async (req, res) => {
 router.delete('/:cartId/products/:productId', async (req, res) => {
     const { cartId, productId } = req.params;
 
-    //const cart = await CartDao.getById(Number(cartId));
-    const cart = await CartDao.getById((cartId));
-    //const product = await ProductDao.getById(Number(productId));
-    const product = await ProductDao.getById((productId));
+    const cart = await CartDao.getById(Number(cartId));
+    const product = await ProductDao.getById(Number(productId));
     if (!product) return res.send({ error: "Producto no encontrado" })
     if (!cart){
         return res.send({ error: "Carrito no encontrado" });
     }else{
-        //const found = cart.products.find(element => element.id == Number(productId));
-        const found = cart.products.find(element => element.id == (productId));
+        const found = cart.products.find(element => element.id == Number(productId));
         if(found !== undefined){
-            //cart.products = cart.products.filter(product => product.id != Number(productId));
-            cart.products = cart.products.filter(product => product.id != (productId));
-            //const updatedCart = await CartDao.updateById(Number(cartId), cart);
-            const updatedCart = await CartDao.updateById((cartId), cart);
+            cart.products = cart.products.filter(product => product.id != Number(productId));
+            const updatedCart = await CartDao.updateById(Number(cartId), cart);
             res.send({ success: true, cart: updatedCart });
         }else{
             return res.send({ error: "Producto no encontrado" });

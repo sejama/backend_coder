@@ -1,0 +1,24 @@
+{
+  "name": "desafios",
+  "version": "1.0.0",
+  "description": "Backend desafios CoderHouse ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sejama/backend_coder.git"
+  },
+  "keywords": [
+    "CoderHouse",
+    "Backend"
+  ],
+  "author": "Sebastian Maidana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sejama/backend_coder/issues"
+  },
+  "homepage": "https://github.com/sejama/backend_coder#readme"
+}

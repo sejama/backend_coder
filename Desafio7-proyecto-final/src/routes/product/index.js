@@ -1,7 +1,7 @@
 import { request, Router } from 'express'
 import { ProductDao } from '../../dao/index.js'
 import { verifyRole } from "../../middlewares/verifyRole.js";
-import { DATE_UTILS, JOI_VALIDATOR } from '../../utils/index.js'
+import { DATE_UTILS, JOI_VALIDATOR } from '../../../utils/index.js'
 
 const router = Router()
 
@@ -12,8 +12,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const {id} = req.params
-    //const product = await ProductDao.getById(Number(id))
-    const product = await ProductDao.getById((id))
+    const product = await ProductDao.getById(Number(id))
     if(!product) return res.send({Error: 'Producto no encontrado'})
     res.send(product)
 })
@@ -34,8 +33,7 @@ router.post('/', verifyRole, async (req, res) => {
 router.delete('/:id', verifyRole, async (req, res) => {
    try{
     const {id} = req.params
-    //await ProductDao.deleteById(Number(id))
-    await ProductDao.deleteById((id))
+    await ProductDao.deleteById(Number(id))
     res.send({ success: true })
    }catch(error){
     console.log(error)
