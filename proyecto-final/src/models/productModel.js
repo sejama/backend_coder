@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-const ProductsCollection = "product";
+const ProductsCollection = "products";
 
 const ProductSchema = new Schema(
   {
