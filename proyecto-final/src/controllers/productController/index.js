@@ -47,9 +47,6 @@ const createProduct = async (req, res) => {
 
     res.send(createdProduct);
   } catch (error) {
-    // no seria recomendable guardar logs de errores de input de usuario, que genera joi
-    // normalmente guardariamos errores propios e internos del servidor
-    await LOGGER_UTILS.addLog(error);
     res.send(error);
   }
 };
