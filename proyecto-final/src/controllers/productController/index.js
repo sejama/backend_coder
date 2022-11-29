@@ -47,7 +47,7 @@ const createProduct = async (req, res) => {
 
     res.send(createdProduct);
   } catch (error) {
-    res.send(error);
+    res.send({error: "Ocurrio un error"});
   }
 };
 
