@@ -1,62 +1,20 @@
 [
    {
-      "title": "Sabroso Algodón Zapatos",
-      "price": "55",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
+      "title": "Escuadra",
+      "price": "123.45",
+      "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
       "id": 1
    },
    {
-      "title": "Increible Plástico Pantalones",
-      "price": "118",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
+      "title": "Calculadora",
+      "price": "234.56",
+      "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
       "id": 2
    },
    {
-      "title": "Guapa Granito Pizza",
-      "price": "951",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
+      "title": "Globo Terráqueo",
+      "price": "345.67",
+      "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
       "id": 3
-   },
-   {
-      "title": "Genérico Granito Teclado",
-      "price": "243",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 4
-   },
-   {
-      "title": "Increible Ladrillo Camiseta",
-      "price": "388",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 5
-   },
-   {
-      "title": "Ergonómico Metal Salchichas",
-      "price": "901",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 6
-   },
-   {
-      "title": "Refinado Acero Salchichas",
-      "price": "461",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 7
-   },
-   {
-      "title": "Guapa Algodón Guantes",
-      "price": "213",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 8
-   },
-   {
-      "title": "Rústico Hormigon Silla",
-      "price": "896",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 9
-   },
-   {
-      "title": "Guapo Ladrillo Patatas fritas",
-      "price": "787",
-      "thumbnail": "https://loremflickr.com/72/72/abstract",
-      "id": 10
    }
 ]

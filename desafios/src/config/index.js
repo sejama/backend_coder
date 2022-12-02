@@ -16,4 +16,6 @@ const mysql = require('knex')({
     }
   });
 
-  module.exports = {mysql, sqlite3};
+  const PRODUCTS_FILENAME = 'products'
+
+  module.exports = {mysql, sqlite3, PRODUCTS_FILENAME };

@@ -2,17 +2,7 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const { Server: HttpServer } = require('http')
 const { Server: socketIOServer } = require('socket.io')
-
-const { faker } = require("@faker-js/faker");
-faker.locale = "es";
-
-function generarProducto() {
-  return{
-    title: faker.commerce.productName(),
-    price: faker.commerce.price(1, 1000, 0), 
-    thumbnail: faker.image.abstract(72, 72), 
-  }
-}
+const ProductsTestRouter  = require('./src/routes/index.js')
 
 const Product = require("./src/models/product/product.model.js")
 const Message = require("./src/models/message/message.model.js")
@@ -26,9 +16,11 @@ const io = new socketIOServer(httpServer)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
+app.use('/api/products-test', ProductsTestRouter)
 app.use(express.static("./src/public"))
 
-//app.use('/api/productos-test')
+
 
 const server = httpServer.listen(port, () => {
     console.log(`Server escuchando en el puerto ${server.address().port}`)
@@ -54,10 +46,6 @@ io.on('connection', socket => {
 /* -------------------------------------------------------------------------- */
   
 const enviarTodosLosProductos = async (socket) => {
-  for(let i= 1; i<= 5; i++) {
-    //console.log(generarProducto())
-    Product.save(generarProducto())
-  }
     const allProduct = await Product.getAll()
     socket.emit("all products", allProduct)
 
