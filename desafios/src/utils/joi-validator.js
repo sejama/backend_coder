@@ -1,4 +1,5 @@
-import joi from "joi"
+//import joi from "joi"
+const joi = require("joi")
 
 const product = joi.object({
     title: joi.string().min(3).max(45).required(),
@@ -10,4 +11,5 @@ const product = joi.object({
     timestamp: joi.string().required(),
 })
 
-export const JOI_VALIDATOR = { product }
+const JOI_VALIDATOR = { product }
+module.exports = JOI_VALIDATOR

@@ -2,7 +2,7 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const { Server: HttpServer } = require('http')
 const { Server: socketIOServer } = require('socket.io')
-const ProductsTestRouter  = require('./src/routes/index.js')
+const { ProductRouter, CartRouter, ProductsTestRouter, MessagesRouter }  = require('./src/routes/index.js')
 
 const Product = require("./src/models/product/product.model.js")
 const Message = require("./src/models/message/message.model.js")
@@ -16,11 +16,11 @@ const io = new socketIOServer(httpServer)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-
-app.use('/api/products-test', ProductsTestRouter)
 app.use(express.static("./src/public"))
-
-
+app.use('/api/products-test', ProductsTestRouter)
+app.use('/api/products', ProductRouter)
+//app.use('/api/cart', CartRouter)
+//app.use('/api/messages', MessagesRouter)
 
 const server = httpServer.listen(port, () => {
     console.log(`Server escuchando en el puerto ${server.address().port}`)

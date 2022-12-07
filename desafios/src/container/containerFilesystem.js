@@ -4,7 +4,7 @@ const fs = require('fs')
 class ContainerFilesystem {
 
     constructor(file) {
-        this.fileDir = `./src/data/${file}.json`
+        this.fileDir = `./src/database/${file}.json`
     }
 
     async save(element) {
