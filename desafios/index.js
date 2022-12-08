@@ -1,76 +1,44 @@
-const express = require('express')
-const handlebars = require('express-handlebars')
-const { Server: HttpServer } = require('http')
-const { Server: socketIOServer } = require('socket.io')
-const { ProductRouter, CartRouter, ProductsTestRouter, MessagesRouter }  = require('./src/routes/index.js')
+import express from "express";
+import session from "express-session";
+import handlebars from 'express-handlebars'
+import { config } from "./src/config/index.js";
+import MongoStore from "connect-mongo";
+import { SessionRouter, ProductsRouter } from "./src/router/index.js";
+import path from 'path'
 
-const Product = require("./src/models/product/product.model.js")
-const Message = require("./src/models/message/message.model.js")
-
-const port = 8080
 const app = express()
-const httpServer = new HttpServer(app)
-const io = new socketIOServer(httpServer)
 
-//esto sirve para leer los body en json
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use('/', express.static(path.join(process.cwd() + './public')))
+app.set('view engine', 'hbs')
+app.set('views', './public/views');
+app.engine('hbs', handlebars.engine({
+    extname: '.hbs',
+    defaultLayout: 'main.hbs',
+    // layoutsDir: '/views/layouts',
+    // partialsDir: '/views/partials',
+}))
 
-app.use(express.static("./src/public"))
-app.use('/api/products-test', ProductsTestRouter)
-app.use('/api/products', ProductRouter)
-//app.use('/api/cart', CartRouter)
-//app.use('/api/messages', MessagesRouter)
+app.use('/', SessionRouter)
+app.use('/products', ProductsRouter)
 
-const server = httpServer.listen(port, () => {
-    console.log(`Server escuchando en el puerto ${server.address().port}`)
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_DB_URL,
+        dbName: process.env.MONGO_DB_NAME,
+        mongoOptions,
+        ttl: 60,
+        collectionName: 'sessions'
+    }),
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+}))
+
+
+
+app.listen(config.SERVER.PORT, () => {
+    console.log(`Server inicializado en el puerto ${config.SERVER.PORT} - Desafio 12 - Persistir datos de la session en mongo atlas`);
 })
-  server.on("error", error => console.log(`Error en el server: ${error}`))
-  
-io.on('connection', socket => {
-    enviarTodosLosProductos(socket)
-    enviarTodosLosMensajes(socket)
-  
-    socket.on("new product", newProduct =>{
-      guardarProducto(newProduct)
-    })
-  
-    socket.on("new message", nuevoMensaje => {
-      guardarMensaje(nuevoMensaje)
-    })
-  
-})
-  
-/* -------------------------------------------------------------------------- */
-/*                                  PRODUCTOS                                 */
-/* -------------------------------------------------------------------------- */
-  
-const enviarTodosLosProductos = async (socket) => {
-    const allProduct = await Product.getAll()
-    socket.emit("all products", allProduct)
-
-}
-    
-const guardarProducto = async (newProduct) =>{
-  await Product.save(newProduct)
-  const allProduct = await Product.getAll()
-  io.sockets.emit("all products", allProduct)
-}
-  
-/* -------------------------------------------------------------------------- */
-/*                                    CHAT                                    */
-/* -------------------------------------------------------------------------- */
-const guardarMensaje = async (message) =>{
-    const hoy = new Date()
-    const hoyFormateado = hoy.getDate()+"/"+(hoy.getMonth()+1)+"/"+hoy.getFullYear()+ " " + hoy.getHours()+":"+hoy.getMinutes()+":"+hoy.getSeconds()
-    const newMessage = { ...message, createdAt: `${hoyFormateado}` }
-    await Message.save(newMessage)
-    const allMessage = await Message.getAll()
-    io.sockets.emit("all message", allMessage)
-}
-
-const enviarTodosLosMensajes = async (socket) => {
-    const allMessage = await Message.getAll()
-    socket.emit("all message", allMessage)
-    
-}
