@@ -13,16 +13,13 @@
 
 <body>
     <main id="mainLogin">
-        <div class="card text-bg-light mb-3" style="max-width: 30rem; border: 1px">
-            <div class="card-header">Log In</div>
-            <div class="card-body">
-                <form action="/login" method="post">
-                    <input type="text" name="userName" placeholder="Ingrese su usuario" style="width: 20rem;">
-                    <br>
-                    <button class="btn btn-dark mt-2" style="width: 10rem;" type="submit">Ingresar</button>
-                </form>
+        <form action="/login" method="post">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="userName" class="sr-only">Usuario</label>
+                <input type="text" class="form-control" id="userName" placeholder="Ingrese su usuario">
             </div>
-        </div>
+            <button class="btn btn-primary mt-2" style="width: 10rem;" type="submit">Ingresar</button>
+        </form>
     </main>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
