@@ -1,0 +1,1 @@
+export { ProductController } from "./products/index.js"
