@@ -1,24 +1,30 @@
 {
-  "name": "desafio12---persistir-datos-de-session-en-mongo-atlas",
+  "name": "desafios_coder_house",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Proyecto destinado para realizar los desafios del curso de backend de coder house",
+  "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "backend",
+    "coder",
+    "house",
+    "coderhouse"
+  ],
+  "author": "Sebastian Maidana",
   "license": "ISC",
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
-    "connect-mongo": "^4.6.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
-    "handlebars": "^4.7.7"
+    "joi": "^17.7.0",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-github2": "^0.1.12",
+    "passport-local": "^1.0.0"
   }
 }
