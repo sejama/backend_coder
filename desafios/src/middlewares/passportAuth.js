@@ -1,88 +1,113 @@
-import passport from 'passport'
-import { Strategy as LocalStrategy } from 'passport-local'
-import { Strategy as GitHubStrategy } from 'passport-github2'
-import { UserDao } from '../dao/index.js'
-import fs from 'fs'
+import { config } from '../config/index.js';
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GithubStrategy } from "passport-github2";
+import { UserDao } from "../dao/index.js";
+import { BCRYPT_VALIDATION } from '../utils/index.js';
 
 const init = () => {
 
-    passport.serializeUser((user,done) => {
+    passport.serializeUser((user, done) => {
         done(null, user.id)
     })
 
-    passport.deserializeUser(async (id,done) => {
-        const user = await UserDao.getByid(id)
+    passport.deserializeUser(async (id, done) => {
+        const user = await UserDao.getById(id)
         done(null, user)
     })
 
-
-    passport.use('login', new LocalStrategy({
+    passport.use("login", new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
-        passReqtoCallback: true
+        passReqToCallback: true,
     }, async (req, email, password, done) => {
         try {
-            if(!email || !password) return done(null, false)
+            UserDao.getOne({ email }, (error, user) => {
 
-            const user = await UserDao.getOne({email: email})
-        
-            if(!user || user.password !== password) return done(null, false)
+                if (error) return done(null, false)
+                if (!user) {
+                    console.log(`Password or user not valid`);
+                    return done(null, false)
+                }
+                if (!BCRYPT_VALIDATION.isValidPassword(user, password)) {
+                    console.log(`Password or user not valid`);
+                    return done(null, false)
+                }
+                return done(null, user)
+            })
 
-            const userResponse = {
-                id: user._id,
-                email: email,
-                cart: user.cart
+            const newUser = {
+                email: req.body.email,
+                password: BCRYPT_VALIDATION.hashPassword(password)
             }
 
-            done(null, userResponse)
+            UserDao.save(newUser, (error, newUser) => {
+                if (error) {
+                    console.log(`We have a problem, we can't save newUser - ERROR ${error}`);
+                    return done(null, false)
+                }
+
+                console.log(`New user registered succesful - USER: ${newUser}`);
+                return done(null, true)
+            })
+
         } catch (error) {
-            console.log(error)
+            console.log(`error from middlewares/passportAuth - LocalStrategy`)
             done(error)
         }
     }))
 
-    passport.use('login', new GitHubStrategy({
-        clientID: 'Iv1.e8436a2922d54a4f',
-        clientSecret: 'ee85a201b297457a6e0c847e78d3de7590bedb45',
-        callbackURL: 'http://localhost:8080/api/auth/github',
+    passport.use('github', new GithubStrategy({
+        clientID: config.PASSPORT.GITHUB.GITHUB_CLIENT_ID,
+        clientSecret: config.PASSPORT.GITHUB.GITHUB_CLIENT_SECRET,
+        callbackURL: config.PASSPORT.GITHUB.GITHUB_CLIENT_CALLBACK_URL,
         scope: ['user:email']
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            //fs.writeFileSync('./profile.js', JSON.stringify(profile,null, 3))
+            // fs.writeFileSync('./data.json', JSON.stringify(profile, null, 3))
+
             const githubEmail = profile.emails?.[0].value
-            if(!githubEmail) return done(null,false)
-            
-            const user = await UserDao.getOne({email: githubEmail})
-            if(user){
+
+            if (!githubEmail) return done(null, false)
+
+            const user = await UserDao.getOne({ email: githubEmail })
+
+            if (user) {
                 const userResponse = {
                     id: user._id,
                     email: user.email,
                     cart: user.cart
                 }
-            }else{
-                const newUser = {
-                    email: githubEmail,
-                    name: profile._json.name,
-                    lastname: '-'
-                }
 
-                const createUser = await UserDao.save(newUser)
+                return done(null, userResponse)
+            }
 
-                const userResponse = {
-                    id: createUser._id,
-                    email: createUser.email,
-                    cart: createUser.cart
-                }
+            const newUser = {
+                email: githubEmail,
+                name: profile._json.name,
+                lastname: "--",
+
+            }
+
+            const createUser = await UserDao.save(newUser)
+
+            const userResponse = {
+                id: createUser._id,
+                email: createUser.email,
+                cart: createUser.cart
             }
 
             done(null, userResponse)
+
         } catch (error) {
-            console.log(error)
+            console.log(`error from middlewares/passportAuth - GithubStrategy`)
             done(error)
         }
-    }))
+
+    }
+    ))
 }
 
 export const PassportAuth = {
-    init
+    init,
 }

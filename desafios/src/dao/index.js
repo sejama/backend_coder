@@ -1,35 +1,42 @@
-import { config } from '../config/index.js'
+import { CartsMongo, CartFileSystem } from './Carts/index.js'
+import { ProductsMongo, ProductBataBase, ProductFileSystem } from './Products/index.js'
+// import { MessagesDataBase, MessagesFileSystem } from './Messages/index.js'
 import { MongoDBService } from '../services/index.js'
-import { CartsMongo, CartsFileSystem, CartsMemory } from './carts/index.js'
-import { ProductsMongo, ProductsFileSystem, ProductsMemory } from './products/index.js'
+import { config } from '../config/index.js'
+import { UsersMongo } from './Users/index.js'
 
-const getSelectDao = () => {
+
+
+const getSelectedDaos = () => {
     switch (config.SERVER.SELECTED_DATABASE) {
         case 'mongo': {
-            MongoDBService.init()
+            MongoDBService.init();
             return {
-                ProductDao: new ProductsMongo,
-                CartDao: new CartsMongo,
-                UserDao: new UsersMongo
+                ProductDao: new ProductsMongo(),
+                CartDao: new CartsMongo(),
+                // MessageDao: new MessagesMongo() **NO CREADO**
+                UserDao: new UsersMongo()
             }
         }
-        case 'fileSystem': {
+        case 'filesystem': {
             return {
-                ProductDao: new ProductsFileSystem,
-                CartDao: new CartsFileSystem,
-                UserDao: new UsersMongo
+                ProductDao: new ProductFileSystem(),
+                CartDao: new CartFileSystem(),
+                // MessageDao: new MessagesFileSystem(),
+                UserDao: new UsersMongo(),
             }
         }
-        case 'memory': {
+        case 'database': {
             return {
-                ProductDao: new ProductsMemory,
-                CartDao: new CartsMemory,
-                //UserDao: new UsersMongo
+                ProductDao: new ProductBataBase(),
+                CartDao: new CartDatabase(),
+                // MessageDao: new MessagesDataBase(),
+                UserDao: new UsersMongo(),
             }
         }
     }
 }
 
-const { ProductDao, CartDao, UserDao } = getSelectDao()
+const { ProductDao, CartDao, UserDao } = getSelectedDaos();
 
 export { ProductDao, CartDao, UserDao }

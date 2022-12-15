@@ -1,3 +1,4 @@
-export { ProductModel } from './productModel.js'
-export { CartModel } from './cartModel.js'
-export { UserModel } from './userModel.js'
+export { CartModel } from "./CartModel.js";
+export { ProductModel } from "./ProductModel.js"
+export { UserModel } from './UserModel.js'
+

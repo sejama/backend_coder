@@ -1,8 +1,8 @@
-import { ContainerFileSystem } from "../../containers/index.js";
+import { ContainerFilesystem } from "../../container/index.js";
 import { config } from "../../config/index.js";
 
-export class ProductsFileSystem extends ContainerFileSystem {
-  constructor() {
-    super(config.DATABASES.filesystem.PRODUCTS_FILENAME);
-  }
+export class ProductFileSystem extends ContainerFilesystem {
+    constructor(){
+        super(config.DATABASE.filesystem.PRODUCTS_FILENAME)
+    }
 }

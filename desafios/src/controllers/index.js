@@ -1,1 +1,2 @@
-export { ProductController } from "./products/index.js"
+export { ProductController } from './ProductsController/index.js'
+export { CartController } from './CartsController/index.js'
