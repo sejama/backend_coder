@@ -1,6 +1,6 @@
 
 import express from 'express'
-import { ProductRouter, CartRouter, AuthRouter } from './routes/index.js'
+import { ProductRouter, CartRouter, AuthRouter,RandomomsRouter } from './routes/index.js'
 import cors from 'cors'
 
 import { PassportAuth } from './middlewares/index.js'
@@ -32,7 +32,7 @@ app.use(express.static('./public'))
 app.use('/api/auth', AuthRouter)
 app.use('/api/products', ProductRouter)
 app.use('/api/cart', CartRouter)
-
+//app.use('/api/randoms', RandomomsRouter)
 
 const server = app.listen(config.SERVER.PORT, () => console.log(`Server inicializado en el puerto ${config.SERVER.PORT}`))
 server.on('error', error => console.log(`Error del servidor: ${error}`))
