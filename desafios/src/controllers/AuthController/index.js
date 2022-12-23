@@ -11,7 +11,7 @@ const signUp = async (req, res) => {
         const existUser = await UserDao.getOne({ email })
 
         if (existUser && existUser.password) {
-            return res.send({ success: false, error: 'El usuario ya existe!' })
+            return res.redirect('/api/auth/signup-error')
         }
 
         if (existUser && !existUser.password) {
@@ -21,7 +21,6 @@ const signUp = async (req, res) => {
 
         await UserDao.save({ name, lastname, email, password: BCRYPT_VALIDATION.hashPassword(password) })
 
-        res.send({ success: true })
     } catch (error) {
         console.log(`error from AuthRouter-Post`);
         res.send({ success: false })

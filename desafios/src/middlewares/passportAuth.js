@@ -26,12 +26,12 @@ const init = () => {
             const user = await UserDao.getOne({ email: email })
 
             if (!user) {
-                console.log(`Contraseña o usuario invalido`);
+                console.log(`Password or user not valid user`);
                 return done(null, false)
             }
 
             if (BCRYPT_VALIDATION.isValidPassword(password, user) != true) {
-                console.log(`Contraseña o usuario invalido`);
+                console.log(`Password or user not valid pass`);
                 return done(null, false)
             }
 
@@ -45,7 +45,7 @@ const init = () => {
 
         } catch (error) {
             res.send({ sucess: false, message: ERRORS_UTILS.USERS.NO_USER_OR_PASSWORD })
-            console.log(`error middlewares/passportAuth - LocalStrategy`)
+            console.log(`error from middlewares/passportAuth - LocalStrategy`)
             done(error)
         }
     }))
@@ -94,7 +94,7 @@ const init = () => {
 
         } catch (error) {
             res.send({ sucess: false, message: ERRORS_UTILS.USERS.NO_USER_OR_PASSWORD })
-            console.log(`error middlewares/passportAuth - GithubStrategy`)
+            console.log(`error from middlewares/passportAuth - GithubStrategy`)
             done(error)
         }
 

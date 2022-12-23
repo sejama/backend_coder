@@ -1,6 +1,7 @@
 
 import express from 'express'
-import { ProductRouter, CartRouter, AuthRouter,RandomomsRouter } from './routes/index.js'
+import handlebars from 'express-handlebars'
+import { ProductRouter, CartRouter, AuthRouter, InfoRouter, RandomRouter } from './routes/index.js'
 import cors from 'cors'
 
 import { PassportAuth } from './middlewares/index.js'
@@ -26,13 +27,24 @@ app.use(cors({ origin: 'http://localhost:3000' }))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.engine('hbs', handlebars.engine({
+    extname: '.hbs',
+    defaultLayout: 'main.hbs',
+}))
+app.set('view engine', 'hbs')
+app.set('views', './public/views')
+
 app.use(express.static('./public'))
+
 
 
 app.use('/api/auth', AuthRouter)
 app.use('/api/products', ProductRouter)
 app.use('/api/cart', CartRouter)
-//app.use('/api/randoms', RandomomsRouter)
+app.use('/api/randoms', RandomRouter)
+app.use('/api/info', InfoRouter)
 
-const server = app.listen(config.SERVER.PORT, () => console.log(`Server inicializado en el puerto ${config.SERVER.PORT}`))
+
+const server = app.listen(config.SERVER.PORT, () => console.log(`Server inicializado en el puerto ${config.SERVER.PORT} - Desafio 13 - Inicio de sesión`))
 server.on('error', error => console.log(`Error del servidor: ${error}`))

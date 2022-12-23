@@ -5,4 +5,6 @@ const verifyRole = (req, res, next) => {
     next()
 }
 
-export { verifyRole }
+
+
+export const Authentications = { verifyRole }

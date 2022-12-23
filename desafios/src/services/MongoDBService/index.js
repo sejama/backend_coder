@@ -7,7 +7,7 @@ const init = async () => {
             dbName: config.DATABASE.mongo.dbName
         })
 
-        console.log('Conexión con MongoDB exitosa');
+        console.log('Connection with MongoDB succesful');
     } catch (error) {
         console.log(error);
     }

@@ -1,2 +1,2 @@
-export { verifyRole } from './verifyRole.js'
+export { Authentications } from './authentications.js'
 export { PassportAuth } from './passportAuth.js'

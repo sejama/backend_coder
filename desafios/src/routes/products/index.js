@@ -1,6 +1,6 @@
 
 import { Router } from 'express'
-import { verifyRole } from '../../middlewares/index.js'
+import { Authentications } from '../../middlewares/index.js'
 import { ProductController } from '../../controllers/index.js'
 
 
@@ -10,7 +10,7 @@ router.get('/', ProductController.getAll)
 
 router.get('/:id', ProductController.getById)
 
-router.post('/', verifyRole, ProductController.createProduct)
+router.post('/', Authentications.verifyRole, ProductController.createProduct)
 
 router.delete('/:id', ProductController.deleteProduct)
 
