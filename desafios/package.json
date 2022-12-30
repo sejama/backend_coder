@@ -1,5 +1,5 @@
 {
-  "name": "desafio13_inicio_de_sesion",
+  "name": "desafios",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sebastian Maidana",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
